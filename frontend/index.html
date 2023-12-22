@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do List</title>
+</head>
+<body>
+    <h1>To-Do List</h1>
+
+        <input type="text" id="addtask" required>
+        <button onclick="add_task()">Add Task</button>
+
+    <ul id="todoListElement">
+        
+    </ul>
+
+    <script>
+        function add_task() {
+            var task = document.getElementById('addtask').value;
+            console.log(task);
+            fetch('http://192.168.59.101:32060', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({task: task}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                updateTodoList(data.todos);
+            })
+            .catch(error => console.error('Error:', error));
+
+        }
+        function updateTodoList(todos) {
+            const todoListElement = document.getElementById('todoListElement');
+            
+            // Clear existing list items
+            todoListElement.innerHTML = '';
+
+            // Add new list items
+            todos.forEach(todo => {
+                const listItem = document.createElement('li');
+                listItem.textContent = todo;
+                todoListElement.appendChild(listItem);
+            });
+        }
+
+    </script>
+</body> 
+</html>

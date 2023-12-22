@@ -1,0 +1,8 @@
+releases: 
+  - name: frontend
+    chart: ./frontend/helm-frontend
+    installed: true
+
+  - name: backend
+    chart: ./backend/helm-backend
+    installed: true
